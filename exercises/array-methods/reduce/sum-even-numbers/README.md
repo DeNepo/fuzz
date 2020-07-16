@@ -1,9 +1,14 @@
 <!-- BEGIN REPORT -->
 > - solution: ok 
 > - args: ok 
+<<<<<<< HEAD
 > - passing: 90% 
 > - starter: file
 
+=======
+> - passing: 96% 
+> - starter: file 
+>>>>>>> 5ac117c17697bfa7db8b3ecc0ad065bcbcaec615
 <!-- END REPORT -->
 
 # Sum Even Numbers
