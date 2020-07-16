@@ -8,7 +8,10 @@ window.onload = async () => {
       document.getElementById('title').innerHTML = index.config.title;
       document.getElementById('header').innerHTML = index.config.title + '/';
 
-      window.liveStudyApp = new LiveStudy(index, editor, document.getElementById('study-buttons'), document.getElementById('description'));
+      window.liveStudyApp = new LiveStudy(index, editor,
+        document.getElementById('study-buttons'),
+        document.getElementById('description'),
+        document.getElementById('alternate-starters'));
       // console.log(liveStudyApp)
 
       const urlString = window.location.href;
@@ -52,7 +55,12 @@ window.onload = async () => {
         .then((loadedExercise) => {
           liveStudyApp.active = loadedExercise;
 
-          liveStudyApp.editor.setModel(loadedExercise.monacoModel)
+          if (Array.isArray(loadedExercise.monacoModel)) {
+            liveStudyApp.editor.setModel(loadedExercise.monacoModel[0]);
+            liveStudyApp.renderAlternateStarters();
+          } else {
+            liveStudyApp.editor.setModel(loadedExercise.monacoModel);
+          }
           liveStudyApp.active = loadedExercise;
           liveStudyApp.renderDescription();
 

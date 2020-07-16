@@ -11,6 +11,7 @@
     - [/passing-objects](./array-methods/filter/passing-objects) - 100%
   - [/reduce](./array-methods/reduce)
     - [/reverse-concatenate](./array-methods/reduce/reverse-concatenate) - 100%
-    - [/sum-even-numbers](./array-methods/reduce/sum-even-numbers) - 94%
+    - [/sum-even-numbers](./array-methods/reduce/sum-even-numbers) - 90%
+- [/fizz-buzz](./fizz-buzz) - 100%
 
 <!-- END TOC -->

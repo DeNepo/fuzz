@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 
 import percentPassing from '../lib/percent-pass.js';
 import generateTests from '../lib/test-generator.js';
+import { start } from "repl";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -26,12 +27,15 @@ const removeDirname = dirName => dirName.split(PARENT_DIR).join('  ...  ');
 
 // the function that will create an object with the same file paths as your /exercises folder
 const register = async function (dirPath) {
+
   const dirs = [];
 
   // get an array of all file names in the directory
   const paths = fs.readdirSync(dirPath);
 
   for (let nextPath of paths) {
+
+    if (nextPath === 'starter') { continue; }
 
     // is the next path a directory or a file?
     const isDirectory = fs.statSync(path.normalize(path.join(dirPath, nextPath))).isDirectory();
@@ -44,10 +48,18 @@ const register = async function (dirPath) {
       const subPath = path.normalize(path.join(dirPath, nextPath));
       const readmePath = path.normalize(path.join(subPath, 'README.md'));
       const indexPath = path.normalize(path.join(subPath, 'index.js'));
-      const starterPath = path.normalize(path.join(subPath, 'starter.js'));
+      const starterFilePath = path.normalize(path.join(subPath, 'starter.js'));
+      const starterDirectoryPath = path.normalize(path.join(subPath, 'starter'));
+      const docstringPath = path.normalize(path.join(subPath, 'starter/_docstring.js'));
       const hasIndex = fs.existsSync(indexPath);
       const hasReadme = fs.existsSync(readmePath);
-      const hasStarterFile = fs.existsSync(starterPath);
+      const hasStarterFile = fs.existsSync(starterFilePath) && !fs.statSync(starterFilePath).isDirectory();
+      let hasStarterDirectory;
+      try {
+        hasStarterDirectory = fs.existsSync(starterDirectoryPath) && fs.statSync(starterDirectoryPath).isDirectory();
+      } catch (err) {
+        hasStarterDirectory = false;
+      }
 
 
       let exercise = null;
@@ -60,6 +72,25 @@ const register = async function (dirPath) {
       }
 
       if (exercise) {
+        const registerStarterFiles = () => {
+          const files = fs.readdirSync(starterDirectoryPath)
+            .filter(nextPath => {
+              const starterFilePath = path.normalize(path.join(starterDirectoryPath, nextPath));
+              return !fs.statSync(starterFilePath).isDirectory();
+            })
+            .filter(nextPath => {
+              const starterFilePath = path.normalize(path.join(starterDirectoryPath, nextPath));
+              return path.extname(starterFilePath) === '.js';
+            })
+            .filter(nextPath => {
+              return nextPath !== '_docstring.js'
+            });
+          const docstring = fs.existsSync(docstringPath);
+          return {
+            files,
+            docstring
+          }
+        };
         subDirReport = {
           readme: hasReadme,
           solution: exercise.solution && typeof exercise.solution === 'function',
@@ -68,9 +99,15 @@ const register = async function (dirPath) {
             ? 'snippet'
             : hasStarterFile
               ? 'file'
-              : 'none',
+              : hasStarterDirectory
+                ? registerStarterFiles()
+                : 'none',
           // date: (new Date()).toJSON()
         };
+        if (Array.isArray(subDirReport.starter)
+          && subDirReport.starter.includes('_docstring.js')) {
+          subDirReport.docstring = true;
+        }
       }
 
       if (subDirReport.solution && subDirReport.args) {
@@ -91,7 +128,8 @@ const register = async function (dirPath) {
           + `> - passing: ${typeof percent === 'number'
             ? percent + '%'
             : 'N/A'} \n`
-          + (subDirReport.starter ? `> - starter: ${subDirReport.starter} \n` : '')
+          + `> - starter: ${hasStarterDirectory ? 'directory' : subDirReport.starter}\n`
+          + (hasStarterDirectory && fs.existsSync(docstringPath) ? '>   - docstring: true\n' : '\n');
         // + `> - ${(new Date()).toLocaleString()}\n`;
 
         const readme = fs.readFileSync(readmePath, 'utf-8');
@@ -116,11 +154,13 @@ const register = async function (dirPath) {
       if (exercise && subDirReport.args && subDirReport.solution) {
         subDir.isExercise = true;
       }
-      subDir.report = subDirReport;
+      if (subDir.isExercise) {
+        subDir.report = subDirReport;
+      }
       if (subDir) {
         // add the registered sub-directory to the current virtual directory
         dirs.push(subDir);
-      };
+      }
 
     }
   };

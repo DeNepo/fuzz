@@ -1,8 +1,9 @@
 <!-- BEGIN REPORT -->
 > - solution: ok 
 > - args: ok 
-> - passing: 94% 
-> - starter: file 
+> - passing: 90% 
+> - starter: file
+
 <!-- END REPORT -->
 
 # Sum Even Numbers

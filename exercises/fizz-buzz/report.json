@@ -1,0 +1,14 @@
+{
+  "readme": false,
+  "solution": true,
+  "args": true,
+  "starter": {
+    "files": [
+      "many-functions.js",
+      "so-short.js",
+      "staircase.js"
+    ],
+    "docstring": true
+  },
+  "passing": 100
+}

@@ -8,7 +8,15 @@
         "readme": true,
         "solution": true,
         "args": true,
-        "starter": "file",
+        "starter": {
+          "files": [
+            "es6-explicit.js",
+            "es6-implicit.js",
+            "function-expression.js",
+            "function-statement.js"
+          ],
+          "docstring": true
+        },
         "passing": 100
       }
     },
@@ -40,8 +48,7 @@
                 "passing": 100
               }
             }
-          ],
-          "report": {}
+          ]
         },
         {
           "path": "/filter",
@@ -68,8 +75,7 @@
                 "passing": 100
               }
             }
-          ],
-          "report": {}
+          ]
         },
         {
           "path": "/reduce",
@@ -93,19 +99,35 @@
                 "solution": true,
                 "args": true,
                 "starter": "file",
-                "passing": 94
+                "passing": 90
               }
             }
-          ],
-          "report": {}
+          ]
         }
-      ],
-      "report": {}
+      ]
+    },
+    {
+      "path": "/fizz-buzz",
+      "isExercise": true,
+      "report": {
+        "readme": false,
+        "solution": true,
+        "args": true,
+        "starter": {
+          "files": [
+            "many-functions.js",
+            "so-short.js",
+            "staircase.js"
+          ],
+          "docstring": true
+        },
+        "passing": 100
+      }
     }
   ],
   "config": {
     "title": "fuzz/exercises",
     "path": "/exercises"
   },
-  "lastBuild": "2020-07-16T13:40:24.562Z"
+  "lastBuild": "2020-07-16T21:16:29.509Z"
 }

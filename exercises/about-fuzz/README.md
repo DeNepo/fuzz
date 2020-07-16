@@ -2,7 +2,8 @@
 > - solution: ok 
 > - args: ok 
 > - passing: 100% 
-> - starter: file 
+> - starter: directory
+>   - docstring: true
 <!-- END REPORT -->
 
 # About Fuzz

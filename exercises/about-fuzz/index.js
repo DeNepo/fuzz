@@ -15,6 +15,5 @@ export default {
       arg = null;
     }
     return [arg];
-  },
-  starter: true
+  }
 };

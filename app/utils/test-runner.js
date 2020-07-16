@@ -1,7 +1,11 @@
 const testIt = (func, test, message) =>
   it(message, () => {
     const currentTest = test;
-    test.args.forEach((arg, index) => console.log(`%carg ${index + 1}:`, 'font-weight: bold;', arg));
+    if (test.args.length === 1) {
+      console.log(`%carg:`, 'font-weight: bold;', test.args[0]);
+    } else {
+      test.args.forEach((arg, index) => console.log(`%carg ${index + 1}:`, 'font-weight: bold;', arg));
+    }
     if (test.throws) {
       console.log('%cexpect:', 'font-weight: bold;', `${test.expect.name}: ${test.expect.message}`);
       console.log('%cthrows:', 'font-weight: bold;', test.throws);

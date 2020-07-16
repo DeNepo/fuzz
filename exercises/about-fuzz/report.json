@@ -2,6 +2,14 @@
   "readme": true,
   "solution": true,
   "args": true,
-  "starter": "file",
+  "starter": {
+    "files": [
+      "es6-explicit.js",
+      "es6-implicit.js",
+      "function-expression.js",
+      "function-statement.js"
+    ],
+    "docstring": true
+  },
   "passing": 100
 }

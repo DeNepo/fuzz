@@ -9,8 +9,7 @@ export default (() => {
     };
     this.report = report;
     this.loaded = false;
-    this.monacoModel = monaco.editor.createModel('', 'javascript');
-    this.monacoModel.updateOptions({ tabSize: 2 });
+    this.monacoModel = null;
   }
 
   // Promise.all this
@@ -22,22 +21,52 @@ export default (() => {
       } else if (this.report.starter === 'file') {
         const starterRes = await fetch(`.${this.path.abs}/starter.js`);
         this.starter = await starterRes.text();
+      } else if (typeof this.report.starter === 'object') {
+        const starterFetches = this.report.starter.files
+          .map(file =>
+            fetch(`.${this.path.abs}/starter/${file}`)
+              .then(res => res.text())
+          );
+        if (this.report.starter.docstring) {
+          starterFetches.push(fetch(`.${this.path.abs}/starter/_docstring.js`)
+            .then(res => res.text())
+          );
+        }
+        this.starter = await Promise.all(starterFetches);
+        if (this.report.starter.docstring) {
+          this.docstring = this.starter.pop();
+        }
+        for (let i = 0; i < this.starter.length; i++) {
+          this.starter[i] = this.docstring + this.starter[i];
+        }
+        this.activeStarter = 0;
       } else if (this.report.starter === 'snippet') {
         // it's already attached as a string property
       }
-      this.monacoModel.setValue(this.starter);
+      if (Array.isArray(this.starter)) {
+        this.monacoModel = this.starter
+          .map(starterCode => {
+            const model = monaco.editor.createModel(starterCode, 'javascript');
+            model.updateOptions({ tabSize: 2 });
+            return model;
+          });
+      } else {
+        console.log(this)
+        this.monacoModel = monaco.editor.createModel(this.starter, 'javascript');
+      }
+
       if (this.report.readme) {
         const readmeRes = await fetch(`.${this.path.abs}/README.md`);
         const readmePreClean = await readmeRes.text();
         this.readme = readmePreClean.replace(/(<!--[ \t]*BEGIN REPORT[ \t]*-->)([^;]*)(<!--[ \t]*END REPORT[ \t]*-->)/, '');
       }
       this.loaded = true;
+
       return this;
     } catch (err) {
       console.error(err);
     };
   }
-
 
   Object.freeze(Exercise);
 
