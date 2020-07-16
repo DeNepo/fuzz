@@ -1,0 +1,111 @@
+{
+  "path": "/exercises",
+  "dirs": [
+    {
+      "path": "/about-fuzz",
+      "isExercise": true,
+      "report": {
+        "readme": true,
+        "solution": true,
+        "args": true,
+        "starter": "file",
+        "passing": 100
+      }
+    },
+    {
+      "path": "/array-methods",
+      "dirs": [
+        {
+          "path": "/all-together",
+          "dirs": [
+            {
+              "path": "/numbery-numberify",
+              "isExercise": true,
+              "report": {
+                "readme": false,
+                "solution": true,
+                "args": true,
+                "starter": "file",
+                "passing": 100
+              }
+            },
+            {
+              "path": "/sum-numbery",
+              "isExercise": true,
+              "report": {
+                "readme": false,
+                "solution": true,
+                "args": true,
+                "starter": "file",
+                "passing": 100
+              }
+            }
+          ],
+          "report": {}
+        },
+        {
+          "path": "/filter",
+          "dirs": [
+            {
+              "path": "/even-numbers",
+              "isExercise": true,
+              "report": {
+                "readme": false,
+                "solution": true,
+                "args": true,
+                "starter": "file",
+                "passing": 100
+              }
+            },
+            {
+              "path": "/passing-objects",
+              "isExercise": true,
+              "report": {
+                "readme": true,
+                "solution": true,
+                "args": true,
+                "starter": "none",
+                "passing": 100
+              }
+            }
+          ],
+          "report": {}
+        },
+        {
+          "path": "/reduce",
+          "dirs": [
+            {
+              "path": "/reverse-concatenate",
+              "isExercise": true,
+              "report": {
+                "readme": true,
+                "solution": true,
+                "args": true,
+                "starter": "file",
+                "passing": 100
+              }
+            },
+            {
+              "path": "/sum-even-numbers",
+              "isExercise": true,
+              "report": {
+                "readme": true,
+                "solution": true,
+                "args": true,
+                "starter": "file",
+                "passing": 94
+              }
+            }
+          ],
+          "report": {}
+        }
+      ],
+      "report": {}
+    }
+  ],
+  "config": {
+    "title": "fuzz/exercises",
+    "path": "/exercises"
+  },
+  "lastBuild": "2020-07-16T13:40:24.562Z"
+}

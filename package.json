@@ -1,0 +1,13 @@
+{
+  "name": "live-study-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "register": "node scripts/register.js",
+    "start": "npm run register && node index.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
