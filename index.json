@@ -93,7 +93,7 @@
                 "solution": true,
                 "args": true,
                 "starter": "file",
-                "passing": 94
+                "passing": 96
               }
             }
           ],
@@ -107,5 +107,5 @@
     "title": "fuzz/exercises",
     "path": "/exercises"
   },
-  "lastBuild": "2020-07-16T13:40:24.562Z"
+  "lastBuild": "2020-07-16T13:46:56.958Z"
 }
