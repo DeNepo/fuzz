@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 
 import percentPassing from '../lib/percent-pass.js';
 import generateTests from '../lib/test-generator.js';
-import { start } from "repl";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -67,11 +66,21 @@ const register = async function (dirPath) {
         try {
           exercise = (await import(indexPath)).default;
         } catch (err) {
-          console.error(err)
+          console.log('---');
+          console.log(indexPath);
+          console.error(err);
+          console.log('---');
+          exercise = err;
         }
       }
 
-      if (exercise) {
+      if (exercise instanceof Error) {
+        subDirReport = {
+          readme: hasReadme,
+          error: exercise
+          // date: (new Date()).toJSON()
+        };
+      } else if (exercise) {
         const registerStarterFiles = () => {
           const files = fs.readdirSync(starterDirectoryPath)
             .filter(nextPath => {
@@ -112,14 +121,13 @@ const register = async function (dirPath) {
 
       if (subDirReport.solution && subDirReport.args) {
         const tests = generateTests({ solution: exercise.solution, args: exercise.args, length: 100 });
-
-        const score = percentPassing(exercise.solution, tests);
-        subDirReport.passing = score;
-
+        const evalReport = percentPassing(exercise.solution, tests);
+        subDirReport.passing = evalReport.passing;
+        subDirReport.failing = evalReport.failing;
       }
 
 
-      if (hasReadme) {
+      if (hasReadme && !subDirReport.error) {
         const percent = subDirReport.passing;
         const newReport = '\n'
           // + (subDirReport.name ? `> - name: ${subDirReport.name} \n` : '')
@@ -141,11 +149,52 @@ const register = async function (dirPath) {
           : `${reportReplacer}\n\n${readme}`;
 
         fs.writeFileSync(readmePath, newReadme);
+      } else if (subDirReport.error) {
+        const newReport = '\n'
+          + `> - ${subDirReport.error} \n`
+
+        const readme = fs.readFileSync(readmePath, 'utf-8');
+
+        const reportRegex = /(<!--[ \t]*BEGIN REPORT[ \t]*-->)([^;]*)(<!--[ \t]*END REPORT[ \t]*-->)/;
+        const reportReplacer = `<!-- BEGIN REPORT -->${newReport}<!-- END REPORT -->`;
+        const newReadme = readme.match(reportRegex)
+          ? readme.replace(reportRegex, reportReplacer)
+          : `${reportReplacer}\n\n${readme}`;
+
+        fs.writeFileSync(readmePath, newReadme);
       }
 
 
       if (hasIndex) {
-        fs.writeFileSync(path.normalize(path.join(subPath, 'report.json')), JSON.stringify(subDirReport, null, '  '));
+        const failReport = subDirReport.failing;
+        delete subDirReport.failing;
+        fs.writeFileSync(path.normalize(path.join(subPath, 'report.json')),
+          JSON.stringify(subDirReport, (key, value) => {
+            if (value instanceof Error) {
+              return value.toString();
+            }
+            return value;
+          }, '  '));
+        try {
+          fs.unlinkSync(path.normalize(path.join(subPath, 'failing-tests.js')));
+        } catch (err) { };
+        if (failReport.length > 0) {
+          console.log('failing tests in ' + subPath);
+          fs.writeFileSync(path.normalize(path.join(subPath, 'failing-tests.js')),
+            JSON.stringify(failReport, (key, value) => {
+              if (value instanceof Error) {
+                return value.stack;
+              } else if (typeof value === 'function') {
+                return value.toString();
+              } else if (value === undefined) {
+                return "__undefined__"
+              } else if (typeof value === 'symbol') {
+                return String(value);
+              }
+
+              return value;
+            }, '  '));
+        }
       }
 
       // recursively register the path if it's a directory
@@ -207,7 +256,7 @@ register(EXERCISES_DIR)
             const subIndex = tableOfContents(subDir, path + subDir.path, indent + '  ');
             const reviewPath = path + subDir.path;
             return `${indent}- [${subDir.path}](.${reviewPath})`
-              + (subDir.isExercise ? ` - ${typeof subDir.report.passing == 'number' ? subDir.report.passing + '%' : 'N/A'}` : '')
+              + (subDir.isExercise ? ` - ${subDir.report.error ? subDir.report.error.toString() : typeof subDir.report.passing == 'number' ? subDir.report.passing + '%' : 'N/A'}` : '')
               + (subIndex ? '\n' + subIndex : '\n');
           })
           .reduce((list, li) => list + li, '')

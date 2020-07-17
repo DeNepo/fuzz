@@ -10,7 +10,10 @@
 
   <script src='./app/utils/marked.js'> </script>
   <script src='./app/utils/describe-it.js'> </script>
-  <script src='./app/utils/chai.js'> </script>
+  <script type='module'>
+    import chai from './lib/chai.js';
+    window.chai = chai;
+  </script>
   <script src='./app/utils/test-runner.js'></script>
   <script>let active = { test: null };</script>
   <script type='module'>
@@ -18,8 +21,8 @@
     window.generateTests = generateTests;
   </script>
   <script type='module'>
-    import cloneDeep from './lib/cloneDeep.js';
-    window.cloneDeep = cloneDeep;
+    import { rfdc } from './lib/rfdc.js';
+    window.clone = rfdc();
   </script>
   <script type='module' src='./app/init.js'> </script>
 

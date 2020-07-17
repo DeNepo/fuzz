@@ -44,7 +44,7 @@ const test = (func, allTests) => {
       active.test = test;
       const checkForSideEffects = !test.args.every(entry => entry === null || typeof entry !== 'object');
       const argsClone = checkForSideEffects
-        ? cloneDeep(test.args)
+        ? clone(test.args)
         : null;
       testIt(func, test, `${index}. random test`);
       if (checkForSideEffects) {

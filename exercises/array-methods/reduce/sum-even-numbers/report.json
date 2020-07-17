@@ -3,9 +3,5 @@
   "solution": true,
   "args": true,
   "starter": "file",
-<<<<<<< HEAD
-  "passing": 90
-=======
-  "passing": 96
->>>>>>> 5ac117c17697bfa7db8b3ecc0ad065bcbcaec615
+  "passing": 100
 }
