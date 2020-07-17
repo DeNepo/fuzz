@@ -21,23 +21,29 @@ export default (() => {
       } else if (this.report.starter === 'file') {
         const starterRes = await fetch(`.${this.path.abs}/starter.js`);
         this.starter = await starterRes.text();
+        if (!this.starter.includes('"use strict"') && !this.starter.includes("'use strict'") && !this.starter.includes('`use strict`')) {
+          this.starter = "'use strict';\n\n" + this.starter;
+        }
       } else if (typeof this.report.starter === 'object') {
         const starterFetches = this.report.starter.files
           .map(file =>
             fetch(`.${this.path.abs}/starter/${file}`)
               .then(res => res.text())
           );
-        if (this.report.starter.docstring) {
+        if (this.report.starter._docstring) {
           starterFetches.push(fetch(`.${this.path.abs}/starter/_docstring.js`)
             .then(res => res.text())
           );
         }
         this.starter = await Promise.all(starterFetches);
-        if (this.report.starter.docstring) {
-          this.docstring = this.starter.pop();
+        if (this.report.starter._docstring) {
+          this._docstring = this.starter.pop();
         }
         for (let i = 0; i < this.starter.length; i++) {
-          this.starter[i] = this.docstring + this.starter[i];
+          this.starter[i] = this._docstring + this.starter[i];
+          if (!this.starter[i].includes('"use strict"') && !this.starter[i].includes("'use strict'") && !this.starter[i].includes('`use strict`')) {
+            this.starter[i] = "'use strict';\n\n" + this.starter[i];
+          }
         }
         this.activeStarter = 0;
       } else if (this.report.starter === 'snippet') {

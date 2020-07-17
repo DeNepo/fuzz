@@ -115,7 +115,7 @@ export default class LiveStudy {
 
   runTests(inDebugger) {
     const exercise = this.active;
-    const testified = (inDebugger ? 'debugger // added by Fuzz\nstudy tip: place a breakpoint at the beginning of your function\n' : '')
+    const testified = (inDebugger ? '// study tip: place a breakpoint at the beginning of your function\ndebugger;\n\n' : '')
       + (this.loopGuard.active
         ? Array.isArray(this.active.monacoModel)
           ? LiveStudy.insertLoopGuards(this.active.monacoModel[this.active.activeStarter].getValue(), this.loopGuard.max)
@@ -130,7 +130,7 @@ export default class LiveStudy {
       + '});\n\n'
       + 'const current = active;\n'
       + 'test(fuzzed, tests);';
-
+    console.log(testified)
     try {
       eval(testified);
     } catch (err) {
