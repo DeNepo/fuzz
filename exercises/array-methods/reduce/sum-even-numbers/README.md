@@ -1,11 +1,7 @@
 <!-- BEGIN REPORT -->
 > - solution: ok 
 > - args: ok 
-<<<<<<< HEAD
 > - passing: 100% 
-=======
-> - passing: 96% 
->>>>>>> fa0e4d739d3eb7eee950dcfbb812e46b27509da7
 > - starter: file
 
 <!-- END REPORT -->
