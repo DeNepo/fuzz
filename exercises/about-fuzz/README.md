@@ -3,7 +3,7 @@
 > - args: ok 
 > - passing: 100% 
 > - starter: directory
->   - docstring: true
+>   - _docstring: true
 <!-- END REPORT -->
 
 # About Fuzz

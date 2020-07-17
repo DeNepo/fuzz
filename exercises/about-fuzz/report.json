@@ -9,7 +9,7 @@
       "function-expression.js",
       "function-statement.js"
     ],
-    "docstring": true
+    "_docstring": true
   },
   "passing": 100
 }

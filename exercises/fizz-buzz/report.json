@@ -8,7 +8,7 @@
       "so-short.js",
       "staircase.js"
     ],
-    "docstring": true
+    "_docstring": true
   },
   "passing": 100
 }

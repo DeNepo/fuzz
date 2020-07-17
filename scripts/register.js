@@ -94,10 +94,10 @@ const register = async function (dirPath) {
             .filter(nextPath => {
               return nextPath !== '_docstring.js'
             });
-          const docstring = fs.existsSync(docstringPath);
+          const _docstring = fs.existsSync(docstringPath);
           return {
             files,
-            docstring
+            _docstring
           }
         };
         subDirReport = {
@@ -115,7 +115,7 @@ const register = async function (dirPath) {
         };
         if (Array.isArray(subDirReport.starter)
           && subDirReport.starter.includes('_docstring.js')) {
-          subDirReport.docstring = true;
+          subDirReport._docstring = true;
         }
       }
 
@@ -137,7 +137,7 @@ const register = async function (dirPath) {
             ? percent + '%'
             : 'N/A'} \n`
           + `> - starter: ${hasStarterDirectory ? 'directory' : subDirReport.starter}\n`
-          + (hasStarterDirectory && fs.existsSync(docstringPath) ? '>   - docstring: true\n' : '\n');
+          + (subDirReport.starter && subDirReport.starter._docstring ? '>   - _docstring: true\n' : '\n');
         // + `> - ${(new Date()).toLocaleString()}\n`;
 
         const readme = fs.readFileSync(readmePath, 'utf-8');
