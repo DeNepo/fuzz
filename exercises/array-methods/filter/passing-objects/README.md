@@ -3,7 +3,6 @@
 > - args: ok 
 > - passing: 100% 
 > - starter: none
-
 <!-- END REPORT -->
 
 # Passing Objects

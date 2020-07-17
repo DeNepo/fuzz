@@ -137,7 +137,11 @@ const register = async function (dirPath) {
             ? percent + '%'
             : 'N/A'} \n`
           + `> - starter: ${hasStarterDirectory ? 'directory' : subDirReport.starter}\n`
-          + (subDirReport.starter && subDirReport.starter._docstring ? '>   - _docstring: true\n' : '>   - _docstring: false\n');
+          + (hasStarterDirectory
+            ? subDirReport.starter && subDirReport.starter._docstring
+              ? '>   - _docstring: true\n'
+              : '>   - _docstring: false\n'
+            : '');
         // + `> - ${(new Date()).toLocaleString()}\n`;
 
         const readme = fs.readFileSync(readmePath, 'utf-8');
