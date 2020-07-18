@@ -4,11 +4,12 @@
   "args": true,
   "starter": {
     "files": [
+      "-docstring.js",
       "many-functions.js",
       "so-short.js",
       "staircase.js"
     ],
-    "_docstring": true
+    "docstring": true
   },
   "passing": 100
 }

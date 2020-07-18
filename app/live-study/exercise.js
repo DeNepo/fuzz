@@ -30,17 +30,19 @@ export default (() => {
             fetch(`.${this.path.abs}/starter/${file}`)
               .then(res => res.text())
           );
-        if (this.report.starter._docstring) {
-          starterFetches.push(fetch(`.${this.path.abs}/starter/_docstring.js`)
-            .then(res => res.text())
-          );
-        }
+        // if (this.report.starter.docstring) {
+        //   starterFetches.push(fetch(`.${this.path.abs}/starter/-docstring.js`)
+        //     .then(res => res.text())
+        //   );
+        // }
         this.starter = await Promise.all(starterFetches);
-        if (this.report.starter._docstring) {
-          this._docstring = this.starter.pop();
+
+        if (this.report.starter.docstring) {
+          this.docstring = this.starter.shift();
+          this.report.starter.files.shift();
         }
         for (let i = 0; i < this.starter.length; i++) {
-          this.starter[i] = this._docstring + this.starter[i];
+          this.starter[i] = this.docstring + this.starter[i];
           if (!this.starter[i].includes('"use strict"') && !this.starter[i].includes("'use strict'") && !this.starter[i].includes('`use strict`')) {
             this.starter[i] = "'use strict';\n\n" + this.starter[i];
           }
@@ -49,6 +51,7 @@ export default (() => {
       } else if (this.report.starter === 'snippet') {
         // it's already attached as a string property
       }
+
       if (Array.isArray(this.starter)) {
         this.monacoModel = this.starter
           .map(starterCode => {

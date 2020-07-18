@@ -49,7 +49,7 @@ const register = async function (dirPath) {
       const indexPath = path.normalize(path.join(subPath, 'index.js'));
       const starterFilePath = path.normalize(path.join(subPath, 'starter.js'));
       const starterDirectoryPath = path.normalize(path.join(subPath, 'starter'));
-      const docstringPath = path.normalize(path.join(subPath, 'starter/_docstring.js'));
+      const docstringPath = path.normalize(path.join(subPath, 'starter/-docstring.js'));
       const hasIndex = fs.existsSync(indexPath);
       const hasReadme = fs.existsSync(readmePath);
       const hasStarterFile = fs.existsSync(starterFilePath) && !fs.statSync(starterFilePath).isDirectory();
@@ -92,12 +92,12 @@ const register = async function (dirPath) {
               return path.extname(starterFilePath) === '.js';
             })
             .filter(nextPath => {
-              return nextPath !== '_docstring.js'
+              return nextPath !== 'docstring.js'
             });
-          const _docstring = fs.existsSync(docstringPath);
+          const docstring = fs.existsSync(docstringPath);
           return {
             files,
-            _docstring
+            docstring
           }
         };
         subDirReport = {
@@ -114,8 +114,8 @@ const register = async function (dirPath) {
           // date: (new Date()).toJSON()
         };
         if (Array.isArray(subDirReport.starter)
-          && subDirReport.starter.includes('_docstring.js')) {
-          subDirReport._docstring = true;
+          && subDirReport.starter.includes('docstring.js')) {
+          subDirReport.docstring = true;
         }
       }
 
@@ -138,9 +138,9 @@ const register = async function (dirPath) {
             : 'N/A'} \n`
           + `> - starter: ${hasStarterDirectory ? 'directory' : subDirReport.starter}\n`
           + (hasStarterDirectory
-            ? subDirReport.starter && subDirReport.starter._docstring
-              ? '>   - _docstring: true\n'
-              : '>   - _docstring: false\n'
+            ? subDirReport.starter && subDirReport.starter.docstring
+              ? '>   - docstring: true\n'
+              : '>   - docstring: false\n'
             : '');
         // + `> - ${(new Date()).toLocaleString()}\n`;
 

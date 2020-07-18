@@ -4,12 +4,13 @@
   "args": true,
   "starter": {
     "files": [
+      "-docstring.js",
       "es6-explicit.js",
       "es6-implicit.js",
       "function-expression.js",
       "function-statement.js"
     ],
-    "_docstring": true
+    "docstring": true
   },
   "passing": 100
 }

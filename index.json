@@ -10,12 +10,13 @@
         "args": true,
         "starter": {
           "files": [
+            "-docstring.js",
             "es6-explicit.js",
             "es6-implicit.js",
             "function-expression.js",
             "function-statement.js"
           ],
-          "_docstring": true
+          "docstring": true
         },
         "passing": 100
       }
@@ -115,11 +116,12 @@
         "args": true,
         "starter": {
           "files": [
+            "-docstring.js",
             "many-functions.js",
             "so-short.js",
             "staircase.js"
           ],
-          "_docstring": true
+          "docstring": true
         },
         "passing": 100
       }
@@ -129,9 +131,5 @@
     "title": "fuzz/exercises",
     "path": "/exercises"
   },
-<<<<<<< HEAD
-  "lastBuild": "2020-07-17T10:13:34.690Z"
-=======
-  "lastBuild": "2020-07-17T09:49:40.570Z"
->>>>>>> 93436bf103aaac2714907c31a04572f4ef53b094
+  "lastBuild": "2020-07-18T21:50:33.663Z"
 }
