@@ -95,6 +95,9 @@ const register = async function (dirPath) {
               return nextPath !== 'docstring.js'
             });
           const docstring = fs.existsSync(docstringPath);
+          // if (docstring) {
+          //   files.shift();
+          // }
           return {
             files,
             docstring

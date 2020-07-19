@@ -130,7 +130,6 @@ export default class LiveStudy {
       + '});\n\n'
       + 'const current = active;\n'
       + 'test(fuzzed, tests);';
-    console.log(testified)
     try {
       eval(testified);
     } catch (err) {
